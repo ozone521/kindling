@@ -145,6 +145,7 @@ func onAdd(obj interface{}) {
 					armsEnable = enabled != ArmsAppDisabled
 				}
 				if appName, ok := workload.Labels[ArmsAppName]; ok {
+					fmt.Println("[qianlu] found armsAppName labels. workloadName: " + workload.Name +" appName:" + appName)
 					armsAppName = appName
 				}
 				break
@@ -171,9 +172,19 @@ func onAdd(obj interface{}) {
 		// Only one of the matched services is cared, here we get the first one
 		serviceInfo = serviceInfoSlice[0]
 	}
+	appId := ""
+	if armsEnable {
+		fmt.Println("[qianlu] found armsAppName labels. pod: " + pod.Name)
+		if id, err := GetAppIdByAppName(armsAppName); err != nil {
+			fmt.Println("GetAppIdByAppName error for" + err.Error())
+		} else {
+			appId = id
+		}
+	}
 	armsInfo := &ArmsInfo{
 		AppName: armsAppName,
 		Enable:  armsEnable,
+		AppId: appId,
 	}
 	var kpi = &K8sPodInfo{
 		Ip:            pod.Status.PodIP,
