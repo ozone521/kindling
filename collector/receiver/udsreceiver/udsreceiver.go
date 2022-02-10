@@ -2,6 +2,7 @@ package udsreceiver
 
 import (
 	"context"
+	"fmt"
 	analyzerpackage "github.com/Kindling-project/kindling/collector/analyzer"
 	"github.com/Kindling-project/kindling/collector/analyzer/network"
 	"github.com/Kindling-project/kindling/collector/analyzer/tcpmetricanalyzer"
@@ -64,7 +65,11 @@ type ZeroMqReqSettings struct {
 
 func (r *UdsReceiver) newPullSocket(zss *ZeroMqPullSettings) Socket {
 
-	zmqContextServer, _ := zmq.NewContext()
+	zmqContextServer, err := zmq.NewContext()
+	fmt.Println("[newPullSocket] err:" + err.Error())
+	if err != nil {
+		panic("[newPullSocket] NewContext for zmq failed. e:" + err.Error())
+	}
 	ServerClient, _ := zmqContextServer.NewSocket(zmq.PULL)
 	if zss.hwm != 0 {
 		ServerClient.SetSndhwm(zss.hwm)
