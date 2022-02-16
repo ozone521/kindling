@@ -34,7 +34,7 @@ func (r *RelabelProcessor) Consume(gaugeGroup *model.GaugeGroup) error {
 	if r.cfg.NeedTraceAsMetric && common.isSlowOrError() {
 		// Trace
 		trace := newGauges(gaugeGroup)
-		traceErr = r.nextConsumer.Consume(trace.Process(r.cfg, TraceName, TopologyTraceInstanceInfo, TopologyTraceK8sInfo, ServiceProtocolInfo, TraceStatusInfo))
+		traceErr = r.nextConsumer.Consume(trace.Process(r.cfg, TraceName, ArmsInfos, TopologyTraceInstanceInfo, TopologyTraceK8sInfo, ServiceProtocolInfo, TraceStatusInfo))
 	}
 
 	// The data when the field is Error is true and the error Type is 2, do not generate metric
@@ -47,10 +47,10 @@ func (r *RelabelProcessor) Consume(gaugeGroup *model.GaugeGroup) error {
 		// Do not emit detail protocol metric at this version
 		//protocol := newGauges(gaugeGroup)
 		//protocolErr := r.nextConsumer.Consume(protocol.Process(r.cfg, ProtocolDetailMetricName, ServiceInstanceInfo, ServiceK8sInfo, ProtocolDetailInfo))
-		metricErr := r.nextConsumer.Consume(common.Process(r.cfg, MetricName, ServiceInstanceInfo, ServiceK8sInfo, ServiceProtocolInfo))
+		metricErr := r.nextConsumer.Consume(common.Process(r.cfg, MetricName, ArmsInfos, ServiceInstanceInfo, ServiceK8sInfo, ServiceProtocolInfo))
 		return multierr.Combine(traceErr, metricErr)
 	} else {
-		metricErr := r.nextConsumer.Consume(common.Process(r.cfg, MetricName, TopologyInstanceInfo, TopologyK8sInfo, SrcDockerInfo, TopologyProtocolInfo))
+		metricErr := r.nextConsumer.Consume(common.Process(r.cfg, MetricName, ArmsInfos, TopologyInstanceInfo, TopologyK8sInfo, SrcDockerInfo, TopologyProtocolInfo))
 		return multierr.Combine(traceErr, metricErr)
 	}
 }

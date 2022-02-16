@@ -259,7 +259,6 @@ func addPodMetaInfoLabelSRC(labelMap *model.AttributeMap, podInfo *kubernetes.K8
 	labelMap.AddStringValue(constlabels.SrcPod, podInfo.PodName)
 	labelMap.AddStringValue(constlabels.SrcIp, podInfo.Ip)
 	if podInfo.ArmsInfo.Enable && podInfo.ArmsInfo.AppId != "" {
-		// 增加Arms相关label
 		labelMap.AddStringValue(constlabels.ArmsPid, podInfo.ArmsInfo.AppId)
 	}
 	if podInfo.ServiceInfo != nil {

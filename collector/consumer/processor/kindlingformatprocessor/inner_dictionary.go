@@ -159,6 +159,14 @@ func ServiceInstanceInfo(cfg *Config, g *gauges) {
 	}
 }
 
+func ArmsInfos(cfg *Config, g *gauges) {
+	appId := ""
+	appId = g.Labels.GetStringValue(constlabels.ArmsPid)
+	if appId != "" {
+		g.targetLabels.AddStringValue(constlabels.ArmsPid, appId)
+	}
+}
+
 func TopologyTraceInstanceInfo(cfg *Config, g *gauges) {
 	g.targetLabels.AddStringValue(constlabels.SrcIp, g.Labels.GetStringValue(constlabels.SrcIp))
 	DstInstanceInfo(cfg, g)
