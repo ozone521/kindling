@@ -156,7 +156,7 @@ func GetAppIdByAppName(appName string) (string, error) {
 			res += tmp
 		}
 	}
-	appId := userIdBase36 + "@" + strings.ToLower(res)[:15]
+	appId := userIdBase36 + "_" + strings.ToLower(res)[:15]
 	appName2appId[appName] = appId
 	return appId, nil
 

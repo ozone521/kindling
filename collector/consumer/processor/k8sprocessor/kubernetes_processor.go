@@ -286,7 +286,7 @@ func addPodMetaInfoLabelDST(labelMap *model.AttributeMap, podInfo *kubernetes.K8
 		labelMap.AddStringValue(constlabels.DstIp, podInfo.Ip)
 	}
 	if podInfo.ArmsInfo.Enable && podInfo.ArmsInfo.AppId != "" {
-		fmt.Println("[qianlu] addPodMetaInfoLabelDST")
+		fmt.Printf("[qianlu] addPodMetaInfoLabelDST. podName:%v, appId:%v", podInfo.PodName, podInfo.ArmsInfo.AppId)
 		labelMap.AddStringValue(constlabels.DestPid, podInfo.ArmsInfo.AppId)
 	} else {
 		fmt.Printf("[qianlu] do not addPodMetaInfoLabelDST. podName:%v, armsEnable:%v, appId:%v\n", podInfo.PodName, podInfo.ArmsInfo.Enable, podInfo.ArmsInfo.AppId)
