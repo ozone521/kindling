@@ -144,13 +144,13 @@ func onAdd(obj interface{}) {
 				if enabled, ok := workload.Labels[ArmsAppEnable]; ok {
 					armsEnable = enabled == ArmsAppEnabled
 				} else {
-					fmt.Println("[qianlu] not found armsAppEnable labels. workloadName: " + workload.Name)
+					fmt.Printf("[qianlu] not found armsAppEnable labels. workloadName:%v, labels:%v", workload.Name, workload.Labels)
 				}
 				if appName, ok := workload.Labels[ArmsAppName]; ok {
 					fmt.Println("[qianlu] found armsAppName labels. workloadName: " + workload.Name +" appName:" + appName)
 					armsAppName = appName
 				} else {
-					fmt.Println("[qianlu] not found armsAppName labels. workloadName: " + workload.Name)
+					fmt.Printf("[qianlu] not found armsAppName labels. workloadName:%v, labels:%v", workload.Name, workload.Labels)
 				}
 				break
 			}
