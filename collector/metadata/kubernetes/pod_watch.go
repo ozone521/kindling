@@ -124,7 +124,7 @@ func onAdd(obj interface{}) {
 	workloadNameTmp := ""
 
 	// 先默认从pod的Labels中取
-	armsEnable := pod.Labels["ArmsAppEnable"] != ArmsAppDisabled
+	armsEnable := pod.Labels["ArmsAppEnable"] == ArmsAppEnabled
 	armsAppName := pod.Labels[ArmsAppName]
 
 	for _, owner := range pod.OwnerReferences {
@@ -142,7 +142,7 @@ func onAdd(obj interface{}) {
 				workloadNameTmp = workload.Name
 				// 如果ReplicaSet中有配置Arms相关参数，则覆盖Pod的配置
 				if enabled, ok := workload.Labels[ArmsAppEnable]; ok {
-					armsEnable = enabled != ArmsAppDisabled
+					armsEnable = enabled == ArmsAppEnabled
 				} else {
 					fmt.Println("[qianlu] not found armsAppEnable labels. workloadName: " + workload.Name)
 				}
@@ -178,7 +178,6 @@ func onAdd(obj interface{}) {
 	}
 	appId := ""
 	if armsEnable {
-		fmt.Println("[qianlu] found armsAppName labels. pod: " + pod.Name)
 		if id, err := GetAppIdByAppName(armsAppName); err != nil {
 			fmt.Println("[qianlu] GetAppIdByAppName error for" + err.Error())
 		} else {
