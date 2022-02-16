@@ -1,6 +1,7 @@
 package k8sprocessor
 
 import (
+	"fmt"
 	"github.com/Kindling-project/kindling/collector/component"
 	"github.com/Kindling-project/kindling/collector/consumer"
 	"github.com/Kindling-project/kindling/collector/consumer/processor"
@@ -259,7 +260,10 @@ func addPodMetaInfoLabelSRC(labelMap *model.AttributeMap, podInfo *kubernetes.K8
 	labelMap.AddStringValue(constlabels.SrcPod, podInfo.PodName)
 	labelMap.AddStringValue(constlabels.SrcIp, podInfo.Ip)
 	if podInfo.ArmsInfo.Enable && podInfo.ArmsInfo.AppId != "" {
-		labelMap.AddStringValue(constlabels.ArmsPid, podInfo.ArmsInfo.AppId)
+		fmt.Println("[qianlu] addPodMetaInfoLabelSRC. appId:" + podInfo.ArmsInfo.AppId)
+		labelMap.AddStringValue(constlabels.SrcPid, podInfo.ArmsInfo.AppId)
+	} else {
+		fmt.Printf("[qianlu] do not addPodMetaInfoLabelSRC. podName:%v, armsEnable:%v, appId:%v\n", podInfo.PodName, podInfo.ArmsInfo.Enable, podInfo.ArmsInfo.AppId)
 	}
 	if podInfo.ServiceInfo != nil {
 		labelMap.AddStringValue(constlabels.SrcService, podInfo.ServiceInfo.ServiceName)
@@ -280,5 +284,11 @@ func addPodMetaInfoLabelDST(labelMap *model.AttributeMap, podInfo *kubernetes.K8
 	labelMap.AddStringValue(constlabels.DstPod, podInfo.PodName)
 	if labelMap.GetStringValue(constlabels.DstIp) == "" {
 		labelMap.AddStringValue(constlabels.DstIp, podInfo.Ip)
+	}
+	if podInfo.ArmsInfo.Enable && podInfo.ArmsInfo.AppId != "" {
+		fmt.Println("[qianlu] addPodMetaInfoLabelDST")
+		labelMap.AddStringValue(constlabels.DestPid, podInfo.ArmsInfo.AppId)
+	} else {
+		fmt.Printf("[qianlu] do not addPodMetaInfoLabelDST. podName:%v, armsEnable:%v, appId:%v\n", podInfo.PodName, podInfo.ArmsInfo.Enable, podInfo.ArmsInfo.AppId)
 	}
 }

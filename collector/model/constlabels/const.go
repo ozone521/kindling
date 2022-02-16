@@ -49,6 +49,10 @@ const (
 	Ip              = "ip"
 	Port            = "port"
 	ArmsPid			= "app_id"
+	SrcPid			= "src_app_id"
+	DestPid			= "dst_app_id"
+	Language		= "language"
+	ParentPid		= "parent_app_id"
 	DataSource 		= "data_source"
 
 	RequestContent  = "request_content"

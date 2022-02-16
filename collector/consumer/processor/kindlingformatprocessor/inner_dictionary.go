@@ -160,10 +160,21 @@ func ServiceInstanceInfo(cfg *Config, g *gauges) {
 }
 
 func ArmsInfos(cfg *Config, g *gauges) {
-	appId := ""
-	appId = g.Labels.GetStringValue(constlabels.ArmsPid)
-	if appId != "" {
-		g.targetLabels.AddStringValue(constlabels.ArmsPid, appId)
+	srcPid := ""
+	srcPid = g.Labels.GetStringValue(constlabels.SrcPid)
+	if srcPid != "" {
+		g.targetLabels.AddStringValue(constlabels.SrcPid, srcPid)
+	}
+	dstPid := ""
+	dstPid = g.Labels.GetStringValue(constlabels.DestPid)
+	if dstPid != "" {
+		g.targetLabels.AddStringValue(constlabels.DestPid, dstPid)
+	}
+
+	language := ""
+	language = g.Labels.GetStringValue(constlabels.Language)
+	if language != "" {
+		g.targetLabels.AddStringValue(constlabels.Language, language)
 	}
 }
 
